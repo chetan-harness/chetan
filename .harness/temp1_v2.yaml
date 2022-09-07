@@ -1,0 +1,49 @@
+template:
+  name: temp1
+  identifier: temp1
+  type: Pipeline
+  projectIdentifier: Chetan_Test
+  orgIdentifier: default
+  tags: {}
+  spec:
+    stages:
+      - stage:
+          name: s1
+          identifier: s1
+          description: ""
+          type: Deployment
+          spec:
+            serviceConfig:
+              serviceRef: srv
+              serviceDefinition:
+                spec:
+                  variables: []
+                type: Kubernetes
+            infrastructure:
+              environmentRef: env
+              infrastructureDefinition:
+                type: KubernetesDirect
+                spec:
+                  connectorRef: account.K8sConnectorOrydWr9y5d
+                  namespace: default
+                  releaseName: release-<+INFRA_KEY>
+              allowSimultaneousDeployments: false
+            execution:
+              steps:
+                - step:
+                    type: ShellScript
+                    name: shell
+                    identifier: shell
+                    spec:
+                      shell: Bash
+                      onDelegate: true
+                      source:
+                        type: Inline
+                        spec:
+                          script: echo hello
+                      environmentVariables: []
+                      outputVariables: []
+                    timeout: 10m
+              rollbackSteps: []
+          tags: {}
+  versionLabel: v2
